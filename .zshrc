@@ -15,11 +15,6 @@ autoload -Uz promptinit
 promptinit
 prompt adam1  # Change to your preferred prompt style
 
-# Set aliases
-# alias ll='ls -la'
-# alias gs='git status'
-# alias ..='cd ..'
-
 # Customize the PATH
 export PATH="$HOME/bin:$PATH"
 export PATH="/Users/ghalacsy/Library/Python/3.9/bin:$PATH"
@@ -32,14 +27,6 @@ SAVEHIST=1000
 setopt append_history
 setopt share_history
 
-# Load additional scripts
-# if [ -f ~/.zsh_aliases ]; then
-  #source ~/.zsh_aliases
-#fi
-#
-#if [ -f ~/.zsh_functions ]; then
-  #source ~/.zsh_functions
-#fi
 create_worktree() {
     git worktree add -b "$1" "../$1" main
 }
@@ -61,10 +48,7 @@ eval "$(pyenv init -)"
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/ghalacsy/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
-#
 export CLAUDE_CODE_USE_BEDROCK=1
-# export ANTHROPIC_MODEL='global.anthropic.claude-sonnet-4-5-20250929-v1:0'
-# export ANTHROPIC_SMALL_FAST_MODEL='us.anthropic.claude-haiku-4-5-20251001-v1:0'
 export ANTHROPIC_DEFAULT_HAIKU_MODEL=global.anthropic.claude-haiku-4-5-20251001-v1:0
 export ANTHROPIC_DEFAULT_SONNET_MODEL=global.anthropic.claude-sonnet-4-5-20250929-v1:0
 export ANTHROPIC_DEFAULT_OPUS_MODEL=us.anthropic.claude-opus-4-1-20250805-v1:0
