@@ -24,6 +24,7 @@ prompt adam1  # Change to your preferred prompt style
 export PATH="$HOME/bin:$PATH"
 export PATH="/Users/ghalacsy/Library/Python/3.9/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH" # required by pipx for example
 
 # Set history options
 HISTSIZE=1000
@@ -51,9 +52,9 @@ if [ -f '/Users/ghalacsy/opt/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/gh
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ghalacsy/opt/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ghalacsy/opt/google-cloud-sdk/completion.zsh.inc'; fi
 
-# export PYENV_ROOT="$HOME/.pyenv"
-# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 . "$HOME/.local/bin/env"
 
