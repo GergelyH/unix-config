@@ -15,11 +15,6 @@ autoload -Uz promptinit
 promptinit
 prompt adam1  # Change to your preferred prompt style
 
-# Set aliases
-# alias ll='ls -la'
-# alias gs='git status'
-# alias ..='cd ..'
-
 # Customize the PATH
 export PATH="$HOME/bin:$PATH"
 export PATH="/Users/ghalacsy/Library/Python/3.9/bin:$PATH"
@@ -32,14 +27,6 @@ SAVEHIST=1000
 setopt append_history
 setopt share_history
 
-# Load additional scripts
-# if [ -f ~/.zsh_aliases ]; then
-  #source ~/.zsh_aliases
-#fi
-#
-#if [ -f ~/.zsh_functions ]; then
-  #source ~/.zsh_functions
-#fi
 create_worktree() {
     git worktree add -b "$1" "../$1" main
 }
