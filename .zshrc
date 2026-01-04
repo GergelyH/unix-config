@@ -61,16 +61,6 @@ eval "$(pyenv init -)"
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/ghalacsy/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
-#
-export CLAUDE_CODE_USE_BEDROCK=1
-# export ANTHROPIC_MODEL='global.anthropic.claude-sonnet-4-5-20250929-v1:0'
-# export ANTHROPIC_SMALL_FAST_MODEL='us.anthropic.claude-haiku-4-5-20251001-v1:0'
-export ANTHROPIC_DEFAULT_HAIKU_MODEL=global.anthropic.claude-haiku-4-5-20251001-v1:0
-export ANTHROPIC_DEFAULT_SONNET_MODEL=global.anthropic.claude-sonnet-4-5-20250929-v1:0
-export ANTHROPIC_DEFAULT_OPUS_MODEL=us.anthropic.claude-opus-4-1-20250805-v1:0
-# Recommended output token settings for Bedrock
-export CLAUDE_CODE_MAX_OUTPUT_TOKENS=4096
-export MAX_THINKING_TOKENS=1024
 
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 
