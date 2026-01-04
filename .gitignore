@@ -1,2 +1,19 @@
 # Work-related configuration files
 .zshrc.work
+
+# Claude Code runtime files (track config, not data)
+.claude/settings.local.json
+.claude/debug/
+.claude/history.jsonl
+.claude/logs/
+.claude/file-history/
+.claude/plans/
+.claude/projects/
+.claude/stats-cache.json
+.claude/statsig/
+.claude/telemetry/
+.claude/todos/
+.claude/shell-snapshots/
+.claude/session-env/
+.claude/plugins/
+.claude/downloads/
