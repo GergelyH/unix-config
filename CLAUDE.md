@@ -17,10 +17,18 @@ This allows version controlling dotfiles without making the entire home director
 
 ### Work/Personal Separation
 
-- **`.zshrc`**: Main shell configuration (tracked in repo)
-- **`.zshrc.work`**: Work-related secrets and configurations (gitignored, NOT tracked)
-- The `.zshrc` conditionally sources `.zshrc.work` if it exists
-- **Never commit work-related secrets, tokens, or company-specific configurations**
+Two separate bare git repos manage personal vs work dotfiles:
+
+| Repo | Git Dir | Alias | Remote |
+|------|---------|-------|--------|
+| Personal | `~/dotfiles/` | `config` | github-personal.com (personal key) |
+| Work | `~/dotfiles-work/` | `config-work` | github.com (work key) |
+
+**Personal repo tracks:** `.zshrc`, `CLAUDE.md`, settings templates
+**Work repo tracks:** `.zshrc-work`, `CLAUDE-work.md`, work-specific skills
+
+- The `.zshrc` conditionally sources `.zshrc-work` if it exists
+- **Never commit work-related secrets to the personal repo**
 
 ## Common Commands
 
@@ -65,15 +73,17 @@ This setup is configured for:
 
 ## Claude Code Settings
 
-- **`~/.claude/settings.template.json`**: Tracked template (copy to `settings.json` on new machines)
+- **`~/.claude/settings.template.json`**: Tracked in personal repo (copy to `settings.json` on new machines)
 - **`~/.claude/settings.json`**: Actual config (gitignored, modified by `/model` command)
-- **`~/.claude/CLAUDE.work.md`**: Work-specific instructions (gitignored, not tracked)
+- **`~/.claude/CLAUDE-work.md`**: Work-specific instructions (tracked in work repo via `config-work`)
+- **`~/.claude/skills/`**: Personal skills in personal repo, work skills (e.g., `jira/`) in work repo
 
-Work-related Claude Code configuration (AWS Bedrock, Jira, Confluence) is documented in `~/.claude/CLAUDE.work.md`.
+Work-related Claude Code configuration (AWS Bedrock, Jira, Confluence) is documented in `~/.claude/CLAUDE-work.md`.
 
 ## When Adding New Dotfiles
 
 1. Check if file contains sensitive information (API keys, tokens, work-specific paths)
-2. If sensitive: add to `.zshrc.work` or similar work-specific file, ensure it's gitignored
-3. If safe: add with `config add <file>` and commit
-4. Update `.gitignore` if creating new categories of excluded files
+2. If work-related (non-secret): add with `config-work add <file>` and commit to work repo
+3. If personal/safe: add with `config add <file>` and commit to personal repo
+4. If contains secrets: add to `.zshrc-work` (sourced but tracked without secrets) or keep untracked
+5. Update `.gitignore` if creating new categories of excluded files
