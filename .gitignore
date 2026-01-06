@@ -6,6 +6,7 @@
 .gitconfig
 
 # Claude Code runtime files (track config, not data)
+.claude/settings.json
 .claude/settings.local.json
 .claude/debug/
 .claude/history.jsonl
