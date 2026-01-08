@@ -1,7 +1,12 @@
 # Work-related configuration files
 .zshrc.work
+.claude/CLAUDE.work.md
+
+# Machine-specific (contains email, etc.)
+.gitconfig
 
 # Claude Code runtime files (track config, not data)
+.claude/settings.json
 .claude/settings.local.json
 .claude/debug/
 .claude/history.jsonl

@@ -4,80 +4,86 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Architecture
 
-This is a **bare git repository** for managing dotfiles using the "config" alias pattern:
-- Git directory: `$HOME/dotfiles/`
-- Work tree: `$HOME` (the entire home directory)
-- All git operations MUST use the `config` alias, NOT the `git` command
+This is a **dotfiles repository** managed using a bare Git repository approach. The Git directory is stored in `~/dotfiles/` while the work tree is the entire home directory (`~`).
 
-## Essential Commands
+### Key Concept: The `config` Alias
 
-### Git Operations
-**CRITICAL**: Always use `config` instead of `git` when working with this repository:
-
+All Git operations use the `config` alias instead of `git`:
 ```bash
-# Check status
+alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+```
+
+This allows version controlling dotfiles without making the entire home directory a Git repository.
+
+### Work/Personal Separation
+
+Two separate bare git repos manage personal vs work dotfiles:
+
+| Repo | Git Dir | Alias | Remote |
+|------|---------|-------|--------|
+| Personal | `~/dotfiles/` | `config` | github-personal.com (personal key) |
+| Work | `~/dotfiles-work/` | `config-work` | github.com (work key) |
+
+**Personal repo tracks:** `.zshrc`, `CLAUDE.md`, settings templates
+**Work repo tracks:** `.zshrc-work`, `CLAUDE-work.md`, work-specific skills
+
+- The `.zshrc` conditionally sources `.zshrc-work` if it exists
+- **Never commit work-related secrets to the personal repo**
+
+## Common Commands
+
+### Dotfiles Management
+```bash
+# Check status of tracked files
 config status
 
-# Add files
+# Add a new dotfile
 config add <file>
 
 # Commit changes
 config commit -m "message"
 
-# Push/pull
+# Push to remote
 config push
+
+# Pull from remote
 config pull
 
 # View tracked files
 config ls-files
 
-# Show diff
+# View diff
 config diff
 ```
 
-**Never use `git` commands directly** - they will operate on the wrong repository or fail.
+### Important Notes
+- The home directory has many untracked files - this is normal
+- Only explicitly added files are tracked
+- Use `.gitignore` in home directory to exclude sensitive files
+- Before adding files, verify they don't contain secrets or work-specific content
 
-### Editing Tracked Files
+## Development Environment
 
-The repository currently tracks:
-- `.zshrc` - Main shell configuration
-- `.gitignore` - Excludes work-specific files
-- `.github/workflows/claude-code-review.yml` - Automated PR reviews
-- `.github/workflows/claude.yml` - @claude mention handler
-- `Library/Application Support/pypoetry/config.toml` - Poetry configuration (virtualenvs.in-project = true)
+This setup is configured for:
+- **Python**: pyenv for version management, poetry for dependencies (in-project virtualenvs)
+- **Node.js**: Managed via Homebrew (node@20)
+- **Docker**: Rancher Desktop
+- **Cloud**: Google Cloud SDK
+- **Claude Code**: AWS Bedrock configuration
 
-### Adding New Dotfiles
+## Claude Code Settings
 
-When adding new dotfiles to track:
-1. Use `config add -f <file>` (force flag may be needed due to gitignore patterns)
-2. Commit with `config commit`
-3. Consider privacy: never track secrets, work-specific configs, or credentials
+- **`~/.claude/settings.template.json`**: Tracked in personal repo (copy to `settings.json` on new machines)
+- **`~/.claude/settings.json`**: Actual config (gitignored, modified by `/model` command)
+- **`~/.claude/CLAUDE-work.md`**: Work-specific instructions (tracked in work repo via `config-work`)
+- **`~/.claude/skills/`**: Personal skills in personal repo, work skills (e.g., `jira/`) in work repo
 
-## Key Patterns
+Work-related Claude Code configuration (AWS Bedrock, Jira, Confluence) is documented in `~/.claude/CLAUDE-work.md`.
 
-### Work Configuration Separation
-- `.zshrc.work` is intentionally gitignored (see `.gitignore`)
-- Work-related secrets and configuration go in `.zshrc.work`
-- `.zshrc` sources `.zshrc.work` if it exists (line 54-57)
-- This keeps work-specific settings out of version control
+## When Adding New Dotfiles
 
-### Shell Configuration (.zshrc)
-- Uses vim keybindings (`bindkey -v`)
-- Default editor: nvim
-- Custom function: `create_worktree()` for git worktree management
-- PATH includes: ~/bin, ~/.local/bin, pyenv, Node 20, Google Cloud SDK
-
-### GitHub Actions Integration
-- **Claude Code Review**: Automatically reviews all PRs using Claude Code (references CLAUDE.md for guidance)
-- **Claude Assistant**: Responds to @claude mentions in issues/PRs/comments
-- Both require `CLAUDE_CODE_OAUTH_TOKEN` secret configured in repository settings
-
-## Development Workflow
-
-1. Check what would be committed: `config status`
-2. Review changes: `config diff`
-3. Stage files: `config add <file>`
-4. Commit: `config commit -m "descriptive message"`
-5. Push: `config push`
-
-**Important**: Since the work tree is your entire home directory, `config status` will show many untracked files. This is normal - only explicitly added files are tracked.
+1. Check if file contains sensitive information (API keys, tokens, work-specific paths)
+2. If work-related (non-secret): add with `config-work add <file>` and commit to work repo
+3. If personal/safe: add with `config add <file>` and commit to personal repo
+4. If contains secrets: add to `.zshrc-work` (sourced but tracked without secrets) or keep untracked
+5. Update `.gitignore` if creating new categories of excluded files

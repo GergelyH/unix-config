@@ -1,0 +1,8 @@
+#!/bin/bash
+# Setup script for dotfiles bare repo
+# Run this after cloning on a new machine
+
+# Hide untracked files in config status (home dir has many)
+config config status.showUntrackedFiles no
+
+echo "Dotfiles repo configured."

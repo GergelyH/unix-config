@@ -50,8 +50,14 @@ export PATH="/Users/ghalacsy/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+alias config-work='/usr/bin/git --git-dir=$HOME/dotfiles-work/ --work-tree=$HOME'
+
+# Source personal secrets if they exist
+if [ -f "$HOME/.zshrc-secrets" ]; then
+    source "$HOME/.zshrc-secrets"
+fi
 
 # Source work-related configuration if it exists
-if [ -f "$HOME/.zshrc.work" ]; then
-    source "$HOME/.zshrc.work"
+if [ -f "$HOME/.zshrc-work" ]; then
+    source "$HOME/.zshrc-work"
 fi
